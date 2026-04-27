@@ -13,7 +13,13 @@ export default function App() {
       <Toaster
         position="bottom-right"
         toastOptions={{
-          style: { background: '#1a1d26', color: '#e8eaf6', border: '1px solid #2e3250' },
+          style: {
+            background: 'oklch(17% 0.009 260)',
+            color: 'oklch(91% 0.005 260)',
+            border: '1px solid oklch(22% 0.011 260)',
+            fontSize: '13px',
+            borderRadius: '8px',
+          },
         }}
       />
       <Dashboard />

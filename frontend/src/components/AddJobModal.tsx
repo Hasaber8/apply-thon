@@ -42,24 +42,54 @@ export default function AddJobModal({ onClose }: Props) {
 function UrlTab({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
   const [url, setUrl] = useState('')
   const [preview, setPreview] = useState<UrlFetchResult | null>(null)
+  const [editMode, setEditMode] = useState(false)
+  const [editForm, setEditForm] = useState({ title: '', company: '', location: '', salary_range: '', jd_text: '' })
   const [error, setError] = useState('')
 
   const fetchMutation = useMutation({
     mutationFn: (u: string) => api.jobs.fetchUrl(u),
-    onSuccess: (data) => { setPreview(data); setError('') },
+    onSuccess: (data) => { setPreview(data); setEditMode(false); setError('') },
     onError: (e: Error) => setError(e.message),
   })
 
+  const setEdit = (k: keyof typeof editForm, v: string) => setEditForm(f => ({ ...f, [k]: v }))
+
+  const enterEdit = () => {
+    setEditForm({
+      title: preview!.title ?? '',
+      company: preview!.company ?? '',
+      location: preview!.location ?? '',
+      salary_range: preview!.salary_range ?? '',
+      jd_text: preview!.jd_text ?? '',
+    })
+    setEditMode(true)
+  }
+
   const saveMutation = useMutation({
-    mutationFn: () => api.jobs.create({
-      company: preview!.company,
-      title: preview!.title,
-      url: preview!.url,
-      platform: preview!.platform,
-      jd_text: preview!.jd_text,
-      location: preview!.location ?? undefined,
-      salary_range: preview!.salary_range ?? undefined,
-    }),
+    mutationFn: () => {
+      const base = {
+        url: preview!.url,
+        platform: preview!.platform,
+      }
+      if (editMode) {
+        return api.jobs.create({
+          ...base,
+          title: editForm.title,
+          company: editForm.company,
+          location: editForm.location || undefined,
+          salary_range: editForm.salary_range || undefined,
+          jd_text: editForm.jd_text || undefined,
+        })
+      }
+      return api.jobs.create({
+        ...base,
+        company: preview!.company,
+        title: preview!.title,
+        jd_text: preview!.jd_text,
+        location: preview!.location ?? undefined,
+        salary_range: preview!.salary_range ?? undefined,
+      })
+    },
     onSuccess: () => { toast.success('Job added!'); onSuccess() },
     onError: (e: Error) => toast.error(e.message),
   })
@@ -94,11 +124,11 @@ function UrlTab({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => 
         )}
       </div>
 
-      {preview && (
+      {preview && !editMode && (
         <div style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 8, padding: 16, marginTop: 4 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <span style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'capitalize' }}>{preview.platform}</span>
-            <button className="btn-ghost btn-sm" onClick={() => setPreview(null)}>Edit</button>
+            <button className="btn-ghost btn-sm" onClick={enterEdit}>Edit details</button>
           </div>
           <div style={{ fontWeight: 600, fontSize: 15 }}>{preview.title}</div>
           <div style={{ color: 'var(--text-muted)', fontSize: 13, marginTop: 2 }}>{preview.company}</div>
@@ -111,6 +141,45 @@ function UrlTab({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => 
             <button
               className="btn-primary"
               disabled={saveMutation.isPending}
+              onClick={() => saveMutation.mutate()}
+            >
+              {saveMutation.isPending ? <><span className="spinner" />Saving...</> : 'Save Job'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {preview && editMode && (
+        <div style={{ marginTop: 8 }}>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Role / Title *</label>
+              <input value={editForm.title} onChange={e => setEdit('title', e.target.value)} required />
+            </div>
+            <div className="form-group">
+              <label>Company *</label>
+              <input value={editForm.company} onChange={e => setEdit('company', e.target.value)} required />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Location</label>
+              <input value={editForm.location} onChange={e => setEdit('location', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Salary Range</label>
+              <input value={editForm.salary_range} onChange={e => setEdit('salary_range', e.target.value)} placeholder="e.g. $120k–$160k" />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Job Description</label>
+            <textarea rows={8} value={editForm.jd_text} onChange={e => setEdit('jd_text', e.target.value)} />
+          </div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+            <button className="btn-ghost" onClick={() => setEditMode(false)}>Back to preview</button>
+            <button
+              className="btn-primary"
+              disabled={saveMutation.isPending || !editForm.title || !editForm.company}
               onClick={() => saveMutation.mutate()}
             >
               {saveMutation.isPending ? <><span className="spinner" />Saving...</> : 'Save Job'}

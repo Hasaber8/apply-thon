@@ -43,7 +43,7 @@ export default function UploadResumeModal({ onClose }: Props) {
               textAlign: 'center',
               cursor: 'pointer',
               transition: 'border-color 0.15s',
-              background: file ? 'rgba(108,99,255,0.05)' : 'transparent',
+              background: file ? 'oklch(68% 0.11 195 / 0.06)' : 'transparent',
             }}
             onClick={() => inputRef.current?.click()}
           >
