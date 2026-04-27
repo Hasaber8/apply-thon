@@ -2,10 +2,11 @@ import type { Job } from '../api/client'
 
 interface Props {
   job: Job
+  index: number
   onClick: () => void
 }
 
-export default function JobCard({ job, onClick }: Props) {
+export default function JobCard({ job, index, onClick }: Props) {
   const initials = job.company.slice(0, 2).toUpperCase()
   const added = new Date(job.date_added).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 
@@ -38,6 +39,20 @@ export default function JobCard({ job, onClick }: Props) {
         e.currentTarget.style.background = 'var(--surface)'
       }}
     >
+      {/* Row number */}
+      <div style={{
+        minWidth: 24,
+        textAlign: 'right',
+        fontSize: 11,
+        fontVariantNumeric: 'tabular-nums',
+        color: 'var(--text-muted)',
+        flexShrink: 0,
+        userSelect: 'none',
+        opacity: 0.5,
+      }}>
+        {index}
+      </div>
+
       {/* Monogram */}
       <div style={{
         width: 38,

@@ -132,10 +132,11 @@ export default function Dashboard() {
         )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {jobs.map(job => (
+          {jobs.map((job, i) => (
             <JobCard
               key={job.id}
               job={job}
+              index={i + 1}
               onClick={() => setSelectedJob(job)}
             />
           ))}
