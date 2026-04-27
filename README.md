@@ -2,7 +2,8 @@
 
 A personal job application tracker with AI-powered resume tailoring, cover letters, and cold emails — all running locally on your machine.
 
-![Dashboard showing job cards with status badges and AI action buttons]
+![Dashboard showing job cards with status badges and AI action buttons](dash.png)
+
 
 ---
 
