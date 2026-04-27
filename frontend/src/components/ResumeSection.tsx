@@ -118,7 +118,7 @@ export default function ResumeSection({ jobId, company, title }: Props) {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
           padding: '10px 14px', borderRadius: 6,
-          background: 'rgba(29,233,182,0.08)', border: '1px solid rgba(29,233,182,0.2)',
+          background: 'oklch(72% 0.13 162 / 0.08)', border: '1px solid oklch(72% 0.13 162 / 0.2)',
         }}>
           <span style={{ color: 'var(--success)', fontSize: 16 }}>✓</span>
           <span style={{ fontSize: 13, color: 'var(--text)' }}>

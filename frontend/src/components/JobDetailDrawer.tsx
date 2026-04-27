@@ -75,7 +75,7 @@ export default function JobDetailDrawer({ jobId, onClose }: Props) {
               </>
             ) : null}
           </div>
-          <button className="modal-close" style={{ fontSize: 22 }} onClick={onClose}>×</button>
+          <button className="modal-close" style={{ fontSize: 22 }} aria-label="Close" onClick={onClose}>×</button>
         </div>
 
         <div className="drawer-body">
@@ -91,7 +91,7 @@ export default function JobDetailDrawer({ jobId, onClose }: Props) {
                       onClick={() => updateMutation.mutate({ status: s })}
                       style={{
                         background: job.status === s ? `var(--status-${s})` : 'var(--surface2)',
-                        color: job.status === s ? '#000' : 'var(--text-muted)',
+                        color: job.status === s ? 'oklch(10% 0.005 260)' : 'var(--text-muted)',
                         border: `1px solid ${job.status === s ? `var(--status-${s})` : 'var(--border)'}`,
                         borderRadius: 20,
                         padding: '4px 14px',

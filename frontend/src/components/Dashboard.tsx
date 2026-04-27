@@ -64,6 +64,7 @@ export default function Dashboard() {
       <div style={{ padding: '20px 36px', maxWidth: 960, margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: 12, marginBottom: 18, alignItems: 'center', flexWrap: 'wrap' }}>
           <input
+            aria-label="Search jobs"
             placeholder="Search company or role..."
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -83,7 +84,7 @@ export default function Dashboard() {
                   fontSize: 12,
                   fontWeight: statusFilter === s ? 600 : 400,
                   textTransform: 'capitalize',
-                  transition: 'all 0.12s',
+                  transition: 'background 0.12s, color 0.12s, border-color 0.12s',
                 }}
               >
                 {s}
@@ -106,10 +107,27 @@ export default function Dashboard() {
 
         {!isLoading && jobs.length === 0 && !error && (
           <div className="empty-state">
-            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text)', marginBottom: 6 }}>
-              No applications yet
-            </p>
-            <p>Add a job posting URL or enter one manually to start tracking.</p>
+            {search || statusFilter !== 'all' ? (
+              <>
+                <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text)', marginBottom: 6 }}>
+                  No results
+                </p>
+                <p>
+                  {search && statusFilter !== 'all'
+                    ? `No ${statusFilter} applications matching "${search}"`
+                    : search
+                    ? `Nothing matching "${search}"`
+                    : `No ${statusFilter} applications yet`}
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--text)', marginBottom: 6 }}>
+                  No applications yet
+                </p>
+                <p>Add a job posting URL or enter one manually to start tracking.</p>
+              </>
+            )}
           </div>
         )}
 

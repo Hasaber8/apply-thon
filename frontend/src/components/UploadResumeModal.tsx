@@ -27,7 +27,7 @@ export default function UploadResumeModal({ onClose }: Props) {
       <div className="modal" style={{ maxWidth: 440 }} onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Upload Base Resume</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <button className="modal-close" aria-label="Close" onClick={onClose}>×</button>
         </div>
         <div className="modal-body">
           <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 16, lineHeight: 1.6 }}>

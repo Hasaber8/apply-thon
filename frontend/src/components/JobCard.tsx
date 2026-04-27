@@ -13,7 +13,11 @@ export default function JobCard({ job, onClick }: Props) {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-label={`${job.title} at ${job.company}, status: ${job.status}`}
       onClick={onClick}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onClick()}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -27,7 +31,7 @@ export default function JobCard({ job, onClick }: Props) {
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = 'var(--accent)'
-        e.currentTarget.style.background = 'oklch(14% 0.008 260)'
+        e.currentTarget.style.background = 'var(--surface-hover)'
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = 'var(--border)'

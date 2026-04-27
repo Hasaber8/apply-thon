@@ -17,7 +17,7 @@ export default function AddJobModal({ onClose }: Props) {
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Add Job</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <button className="modal-close" aria-label="Close" onClick={onClose}>×</button>
         </div>
         <div className="modal-body">
           <div className="tabs">
@@ -228,7 +228,7 @@ function ManualTab({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div className="form-group">
-        <label>Job Description (paste here)</label>
+        <label>Job description</label>
         <textarea
           rows={8}
           value={form.jd_text}
