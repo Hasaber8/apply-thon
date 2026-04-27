@@ -1,0 +1,18 @@
+# Database
+*.db
+
+# Resumes (personal data — keep locally, not in repo)
+resumes/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# macOS
+.DS_Store
