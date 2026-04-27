@@ -24,6 +24,7 @@ You need four things installed before you start:
 |------|--------------|---------|
 | Python 3.11+ | Backend server | [python.org](https://python.org) |
 | Node.js 18+ | Frontend | [nodejs.org](https://nodejs.org) |
+| SQLite 3 | Local data storage | Built into Python — no separate install needed |
 | Claude Code | AI (uses your existing subscription) | `npm install -g @anthropic-ai/claude-code` |
 | MacTeX / TeX Live | Compiling resumes to PDF | `brew install --cask mactex` |
 | pandoc | Converting your DOCX resume to LaTeX | `brew install pandoc` |
@@ -52,7 +53,7 @@ pip install -r backend/requirements.txt
 cd frontend && npm install && cd ..
 ```
 
-That's it — no database setup, no environment variables, no accounts needed.
+That's it — no environment variables, no accounts needed. All application data is stored locally in `apply_thon.db` (a SQLite file created automatically on first run).
 
 ---
 
